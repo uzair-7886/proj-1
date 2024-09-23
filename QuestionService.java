@@ -1,22 +1,20 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class QuestionService {
-
-    Question[] questions = new Question[5];
-    String[] selection = new String[5];
+    private List<Question> questions;
+    private List<String> selection;
+    private FileHandler fileHandler;
 
     public QuestionService() {
-        questions[0] = new Question(1, "size of int", "2", "6", "4", "8", "4");
-        questions[1] = new Question(2, "size of double", "2", "6", "4", "8", "8");
-        questions[2] = new Question(3, "size of char", "2", "6", "4", "8", "2");
-        questions[3] = new Question(4, "size of long", "2", "6", "4", "8", "8");
-        questions[4] = new Question(5, "size of boolean", "1", "2", "4", "8", "1");
-
-
+        this.fileHandler = new FileHandler("questions.txt");
+        this.questions = fileHandler.readQuestions();
+        this.selection = new ArrayList<>();
     }
 
     public void playQuiz() {
-        int i = 0;
+        Scanner sc = new Scanner(System.in);
         for (Question q : questions) {
             System.out.println("Question no. : " + q.getId());
             System.out.println(q.getQuestion());
@@ -24,29 +22,52 @@ public class QuestionService {
             System.out.println(q.getOpt2());
             System.out.println(q.getOpt3());
             System.out.println(q.getOpt4());
-            Scanner sc = new Scanner(System.in);
-            selection[i] = sc.nextLine();
-            i++;
-            
-
+            selection.add(sc.nextLine());
         }
 
         for (String s : selection) {
             System.out.println(s);
         }
-
     }
 
     public void printScore() {
         int score = 0;
-        for (int i = 0; i < questions.length; i++) {
-            Question que = questions[i];
+        for (int i = 0; i < questions.size(); i++) {
+            Question que = questions.get(i);
             String answer = que.getAnswer();
-            String userAnswer = selection[i];
+            String userAnswer = selection.get(i);
             if (answer.equals(userAnswer)) {
                 score++;
             }
         }
         System.out.println("Your score is : " + score);
+    }
+
+    public void addQuestions() {
+        Scanner sc = new Scanner(System.in);
+        while (true) {
+            System.out.println("Enter question details (or type 'exit' to finish):");
+            System.out.print("Question: ");
+            String question = sc.nextLine();
+            if (question.equalsIgnoreCase("exit")) {
+                break;
+            }
+            System.out.print("Option 1: ");
+            String opt1 = sc.nextLine();
+            System.out.print("Option 2: ");
+            String opt2 = sc.nextLine();
+            System.out.print("Option 3: ");
+            String opt3 = sc.nextLine();
+            System.out.print("Option 4: ");
+            String opt4 = sc.nextLine();
+            System.out.print("Correct Answer: ");
+            String answer = sc.nextLine();
+
+            int id = questions.size() + 1;
+            Question newQuestion = new Question(id, question, opt1, opt2, opt3, opt4, answer);
+            questions.add(newQuestion);
+            fileHandler.writeQuestion(newQuestion);
+        }
+        System.out.println("Questions added successfully.");
     }
 }

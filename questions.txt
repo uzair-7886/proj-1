@@ -1,0 +1,5 @@
+1|What does JDK stand for in Java?|Java Development Kit|Java Deployment Kit|Java Design Kit|Java Debug Kit|Java Development Kit
+2|Which company originally developed Java?|Sun Microsystems|Microsoft|Apple|IBM|Sun Microsystems
+3|What is the file extension for Java source files?|.java|.class|.jar|.exe|.java
+4|What is the main purpose of Java's "garbage collection"?|To clean up unused memory|To delete old files|To optimize code|To remove comments|To clean up unused memory
+6|what is my name?|uzair|slwo|wljeoi|wljeow|uzair
